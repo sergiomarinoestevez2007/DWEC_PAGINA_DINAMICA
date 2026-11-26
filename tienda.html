@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Tienda</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <header>
+    <h1>Mi tienda</h1>
+    <p class="subtitulo">Práctica de la Unidad 3 — Objetos predefinidos, DOM y persistencia</p>
+  </header>
+
+  <!-- ============================================================
+       EJERCICIO 2: Buscador y código promocional (RegExp)
+       ============================================================ -->
+  <section id="seccionBuscador">
+    <h2>Buscar productos</h2>
+    <input type="text" id="inputBusqueda" placeholder="Escribe un nombre de producto...">
+    <button onclick="buscarProductos()">Buscar</button>
+    <button onclick="mostrarTodosLosProductos()">Ver todos</button>
+
+    <div class="promo">
+      <label for="inputPromo">Código promocional (formato: 3 letras + 4 dígitos, ej. ABC1234):</label>
+      <input type="text" id="inputPromo" placeholder="ABC1234">
+      <button onclick="validarCodigoPromocional()">Aplicar código</button>
+      <p id="mensajePromo"></p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       EJERCICIO 1: Catálogo (Math, String + DOM)
+       EJERCICIO 5: Fechas de oferta (Date) se integra sobre las mismas tarjetas
+       ============================================================ -->
+  <section id="seccionCatalogo">
+    <h2>Catálogo</h2>
+    <div id="contenedorProductos" class="grid-productos">
+      <!-- Las tarjetas de producto se generan aquí con JS -->
+    </div>
+  </section>
+
+  <!-- ============================================================
+       EJERCICIO 4: Historial de búsquedas (sessionStorage)
+       ============================================================ -->
+  <section id="seccionHistorial">
+    <h2>Búsquedas recientes de esta sesión</h2>
+    <ul id="listaHistorial">
+      <!-- Se rellena con JS a partir de sessionStorage -->
+    </ul>
+  </section>
+
+  <!-- ============================================================
+       EJERCICIO 3: Carrito (localStorage)
+       ============================================================ -->
+  <section id="seccionCarrito">
+    <h2>Carrito de compra</h2>
+    <table id="tablaCarrito">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Precio unidad</th>
+          <th>Cantidad</th>
+          <th>Subtotal</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="cuerpoCarrito">
+        <!-- Filas del carrito generadas con JS -->
+      </tbody>
+    </table>
+    <p id="totalCarrito">Total: 0 €</p>
+    <button onclick="vaciarCarrito()">Vaciar carrito</button>
+  </section>
+
+  <script src="scripts.js"></script>
+</body>
+
+</html>
