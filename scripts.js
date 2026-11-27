@@ -111,15 +111,55 @@ function mostrarTodosLosProductos() {
 // a pintar el catálogo solo con los resultados.
 // Debe guardar también la búsqueda válida (ver ejercicio 4).
 function buscarProductos() {
-  // TODO
+  // Texto introducido por el usuario, sin espacios al principio ni al final
+  const textoBuscado = document.getElementById("inputBusqueda").value.trim();
+
+  // Búsqueda vacía: se muestra el catálogo completo
+  if (textoBuscado === "") {
+    mostrarTodosLosProductos();
+    return;
+  }
+
+  // Se escapan los caracteres especiales de RegExp (. * + ? ( ) etc.)
+  // para que se busquen como texto normal y no den error.
+  const textoEscapado = textoBuscado.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+  // Expresión regular insensible a mayúsculas/minúsculas (flag "i")
+  const patron = new RegExp(textoEscapado, "i");
+
+  // Productos cuyo nombre contiene el texto buscado
+  const resultados = productos.filter(function (p) {
+    return patron.test(p.nombre);
+  });
+
+  pintarCatalogo(resultados);
+
+  // Se guarda la búsqueda en el historial (ejercicio 4)
+  guardarBusquedaEnHistorial(textoBuscado);
 }
 
 // Valida el contenido de #inputPromo contra el patrón:
 // 3 letras mayúsculas seguidas de 4 dígitos (ej. ABC1234).
 // Muestra el resultado en #mensajePromo.
 function validarCodigoPromocional() {
-  // TODO
+    
+  // Código introducido, sin espacios al principio ni al final
+  const codigo = document.getElementById("inputPromo").value.trim();
+  const mensaje = document.getElementById("mensajePromo");
+
+  // ^ y $ obligan a que el código sea EXACTAMENTE ese formato
+  const patronCodigo = /^[A-Z]{3}[0-9]{4}$/;
+
+  if (patronCodigo.test(codigo)) {
+    mensaje.textContent = "Código válido. Descuento aplicado en el siguiente paso de compra.";
+    mensaje.style.color = "green";
+  } else {
+    mensaje.textContent = "Código no válido. Formato esperado: 3 letras mayúsculas + 4 dígitos (ej. ABC1234).";
+    mensaje.style.color = "red";
+  }
 }
+
+
 
 // ============================================================
 // EJERCICIO 3 — Carrito de compra (localStorage)
