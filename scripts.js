@@ -110,6 +110,11 @@ function mostrarTodosLosProductos() {
 // expresión regular insensible a mayúsculas/minúsculas, y vuelve
 // a pintar el catálogo solo con los resultados.
 // Debe guardar también la búsqueda válida (ver ejercicio 4).
+/**
+ * Filtra el catálogo por el texto de #inputBusqueda (sin distinguir
+ * mayúsculas/minúsculas) y pinta solo los productos cuyo nombre lo contiene.
+ * Si el texto está vacío (o solo tiene espacios) muestra todo el catálogo.
+ */
 function buscarProductos() {
   // Texto introducido por el usuario, sin espacios al principio ni al final
   const textoBuscado = document.getElementById("inputBusqueda").value.trim();
@@ -141,8 +146,12 @@ function buscarProductos() {
 // Valida el contenido de #inputPromo contra el patrón:
 // 3 letras mayúsculas seguidas de 4 dígitos (ej. ABC1234).
 // Muestra el resultado en #mensajePromo.
+/**
+ * Comprueba si el código de #inputPromo tiene el formato correcto
+ * (3 letras mayúsculas A-Z + 4 dígitos 0-9) y muestra el resultado
+ * en #mensajePromo: en verde si es válido y en rojo si no lo es.
+ */
 function validarCodigoPromocional() {
-    
   // Código introducido, sin espacios al principio ni al final
   const codigo = document.getElementById("inputPromo").value.trim();
   const mensaje = document.getElementById("mensajePromo");
@@ -167,25 +176,62 @@ function validarCodigoPromocional() {
 // guardado bajo la clave "carritoTienda".
 // ============================================================
 
+/**
+ * Añade al carrito (localStorage, clave "carritoTienda") el producto con
+ * el id indicado. Si ya estaba, incrementa su cantidad en 1; si no, lo
+ * añade con cantidad 1 y su precio SIN descuento. Después repinta el carrito.
+ */
 function anadirAlCarrito(idProducto) {
-  // TODO: leer carrito de localStorage (o [] si no existe),
-  // añadir el producto o incrementar cantidad si ya estaba,
-  // guardar de nuevo y repintar la tabla del carrito.
+  
+  const producto = productos.find(p => p.id === idProducto);
+  if (!producto) {
+    return; 
+  }
+
+  
+  const carrito = JSON.parse(localStorage.getItem("carritoTienda")) || [];
+
+  
+  const item = carrito.find(i => i.id === idProducto);
+
+  if (item) {
+    
+    item.cantidad++;
+  } else {
+    
+    carrito.push({
+      id: producto.id,
+      nombre: producto.nombre,
+      precio: producto.precio,
+      cantidad: 1
+    });
+  }
+
+  
+  localStorage.setItem("carritoTienda", JSON.stringify(carrito));
+  pintarCarrito();
 }
 
+
 function eliminarDelCarrito(idProducto) {
-  // TODO
+  const carrito = JSON.parse(localStorage.getItem("carritoTienda")) || [];
+
+  const nuevoCarrito = carrito.filter(i => i.id !== idProducto);
+
+  localStorage.setItem("carritoTienda", JSON.stringify(nuevoCarrito));
+  pintarCarrito();
 }
 
 function vaciarCarrito() {
-  // TODO
+  localStorage.removeItem("carritoTienda");
+  pintarCarrito();
 }
 
 function pintarCarrito() {
   // TODO: leer el carrito de localStorage y generar las filas
   // de #cuerpoCarrito, calculando el total con Math y mostrándolo
   // en #totalCarrito.
-}
+} 
 
 // ============================================================
 // EJERCICIO 4 — Historial de búsquedas (sessionStorage)
